@@ -15,26 +15,46 @@
 
 int main(int argc, char** argv){
 SDL_Window *window;
-SDL_Renderer *renderer;
+SDL_Surface * background , *png_image, *ScreenSurface;
+SDL_Rect center;
+int RUNNING=0;
 
-SDL_Init(SDL_INIT_VIDEO);
-
-window= SDL_CreateWindow("title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,SDL_WINDOW_FULLSCREEN_DESKTOP);
-
-renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-//red
-SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-SDL_RenderClear(renderer);
-SDL_RenderPresent(renderer);
-SDL_Delay(5000);
-//green
- SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
- SDL_RenderClear(renderer);
- SDL_RenderPresent(renderer);
-SDL_Delay(5000);
+center.w=0;
+center.h=0;
+center.x= SCREEN_HEIGHT/2;
+center.y=SCREEN_WIDTH/2;
 
 
+window= SDL_CreateWindow("workshop exemple", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,SDL_WINDOW_FULLSCREEN_DESKTOP);
+ScreenSurface=SDL_GetWindowSurface(window);
 
+background= IMG_Load("images/street.png");
+png_image=IMG_Load("images/menu.png");
+
+
+while(RUNNING<=5){
+
+SDL_BlitSurface(background,NULL,ScreenSurface,NULL);
+SDL_BlitSurface(png_image,NULL,ScreenSurface,&center);
+
+
+
+SDL_UpdateWindowSurface(window);
+SDL_Delay(1000);
+RUNNING++;
+}
+
+
+
+SDL_FreeSurface(png_image);
+SDL_FreeSurface(background);
+SDL_FreeSurface(ScreenSurface);
+SDL_DestroyWindow(window);
     SDL_Quit();
+
+
+
+
+
     return 0;
 }
